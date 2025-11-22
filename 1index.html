@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Yomad Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* Custom gradient animation */
+        .gradient-text {
+            background: linear-gradient(to right, #f472b6, #a78bfa, #22d3ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: gradient 5s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism effects */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Floating Blob Animations */
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Cursor Styles */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #f472b6; /* Pinkish dot */
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Hover effect for cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: transparent;
+        }
+
+        /* Typewriter Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+            color: #f472b6;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-pink-500 selection:text-white overflow-x-hidden">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 start-0 glass-nav">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse group hoverable">
+                <div class="p-2 bg-gradient-to-br from-pink-500 to-violet-600 rounded-lg group-hover:shadow-lg group-hover:shadow-pink-500/20 transition-all">
+                    <i data-lucide="terminal" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="self-center text-xl font-bold whitespace-nowrap text-white tracking-tight">Yomad<span class="text-slate-400">Matrix</span></span>
+            </a>
+            <div class="hidden w-full md:block md:w-auto">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0">
+                    <li>
+                        <a href="#home" class="hoverable block py-2 px-3 text-white bg-pink-600 rounded md:bg-transparent md:text-pink-400 md:p-0" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about" class="hoverable block py-2 px-3 text-slate-300 rounded hover:bg-slate-800 md:hover:bg-transparent md:border-0 md:hover:text-pink-400 md:p-0 transition-colors">About</a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="hoverable block py-2 px-3 text-slate-300 rounded hover:bg-slate-800 md:hover:bg-transparent md:border-0 md:hover:text-pink-400 md:p-0 transition-colors">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="hoverable block py-2 px-3 text-slate-300 rounded hover:bg-slate-800 md:hover:bg-transparent md:border-0 md:hover:text-pink-400 md:p-0 transition-colors">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/30 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-pink-600/30 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-blue-600/30 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-4000"></div>
+
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12 relative z-10">
+            <div class="reveal inline-flex items-center py-1 px-1 pr-4 mb-7 text-sm text-slate-300 bg-slate-900/50 border border-slate-800 rounded-full hover:border-pink-500/50 transition-colors backdrop-blur-sm">
+                <span class="text-xs bg-gradient-to-r from-pink-500 to-violet-600 rounded-full text-white px-4 py-1.5 mr-3 font-bold shadow-lg shadow-pink-500/20">Dev</span> 
+                <span class="text-sm font-medium">Welcome to my universe</span> 
+            </div>
+            
+            <!-- Typewriter Target -->
+            <h1 class="mb-6 text-5xl font-black tracking-tight leading-none md:text-6xl lg:text-7xl text-white min-h-[1.2em]">
+                I am <span id="typewriter-text" class="gradient-text typing-cursor"></span>
+            </h1>
+
+            <p class="reveal mb-8 text-lg font-normal text-slate-400 lg:text-xl sm:px-16 xl:px-48 leading-relaxed" style="transition-delay: 200ms;">
+                Crafting digital experiences and engineering IoT solutions. From concept to code, I build things that matter.
+            </p>
+            <div class="reveal flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4" style="transition-delay: 400ms;">
+                <a href="#projects" class="hoverable inline-flex justify-center items-center py-4 px-8 text-base font-bold text-center text-white rounded-xl bg-gradient-to-r from-pink-600 to-violet-600 hover:from-pink-500 hover:to-violet-500 focus:ring-4 focus:ring-pink-900 transition-all transform hover:scale-105 shadow-lg shadow-pink-600/20">
+                    View Projects
+                    <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                </a>
+                <a href="#contact" class="hoverable inline-flex justify-center items-center py-4 px-8 text-base font-medium text-center text-slate-300 rounded-xl border border-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-800 transition-all backdrop-blur-sm">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative bg-slate-900 border-t border-slate-800">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="grid md:grid-cols-12 gap-12 items-start">
+                
+                <!-- Bio Column (7/12) -->
+                <div class="md:col-span-7">
+                    <h2 class="reveal mb-4 text-4xl tracking-tight font-black text-white">
+                        About <span class="gradient-text">Manan</span>
+                    </h2>
+                    <div class="h-1 w-20 bg-gradient-to-r from-pink-500 to-violet-600 mb-8 rounded-full reveal"></div>
+                    
+                    <!-- Bio Text -->
+                    <p class="reveal text-lg font-medium text-slate-300 mb-6 leading-relaxed" style="transition-delay: 100ms;">
+                        I’m Manan — a passionate maker and tech creator who loves building innovative projects using Arduino, robotics, sensors, and automation. I turn complex ideas into simple, functional prototypes that actually work in the real world. From smart rovers to solar trackers, I focus on creativity, precision, and hands-on experimentation. Engineering, for me, is a playground where I explore, build, break, improve, and keep pushing forward.
+                    </p>
+                    
+                    <h3 class="reveal text-xl font-bold text-pink-400 mb-4 mt-8" style="transition-delay: 200ms;">⚡ What Defines Me</h3>
+                    <ul class="text-slate-400 space-y-3 list-none p-0 reveal" style="transition-delay: 300ms;">
+                        <li class="flex items-start">
+                            <i data-lucide="robot" class="w-5 h-5 mr-3 mt-1 text-violet-400 flex-shrink-0"></i>
+                            <span>Tech enthusiast deeply involved in robotics, automation, and electronics.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="wrench" class="w-5 h-5 mr-3 mt-1 text-violet-400 flex-shrink-0"></i>
+                            <span>Skilled in Arduino and sensor-based projects, always building something new.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="brain" class="w-5 h-5 mr-3 mt-1 text-violet-400 flex-shrink-0"></i>
+                            <span>A creative problem solver who experiments, learns, and improves constantly.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="rocket" class="w-5 h-5 mr-3 mt-1 text-violet-400 flex-shrink-0"></i>
+                            <span>Focused on making real working prototypes, not just ideas on paper.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Skills Column (5/12) -->
+                <div class="md:col-span-5 pt-8 md:pt-16">
+                    <h3 class="reveal text-2xl font-bold text-white mb-6">Technical Skills</h3>
+
+                    <!-- HTML Bar -->
+                    <div class="mb-6 reveal" style="transition-delay: 400ms;">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-base font-medium text-slate-300">HTML / Web Frontend</span>
+                            <span class="text-sm font-semibold text-pink-400">80%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-2.5">
+                            <div class="h-2.5 rounded-full bg-gradient-to-r from-pink-500 to-violet-600" style="width: 80%"></div>
+                        </div>
+                    </div>
+
+                    <!-- C++ Bar -->
+                    <div class="mb-6 reveal" style="transition-delay: 500ms;">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-base font-medium text-slate-300">C++ / Robotics & Embedded</span>
+                            <span class="text-sm font-semibold text-green-400">95%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-2.5">
+                            <div class="h-2.5 rounded-full bg-gradient-to-r from-green-500 to-teal-600" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Python Bar -->
+                    <div class="mb-6 reveal" style="transition-delay: 600ms;">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-base font-medium text-slate-300">Python</span>
+                            <span class="text-sm font-semibold text-yellow-400">40%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 rounded-full h-2.5">
+                            <div class="h-2.5 rounded-full bg-gradient-to-r from-yellow-500 to-orange-600" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 relative bg-slate-950">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center mb-16 reveal">
+                <h2 class="mb-4 text-4xl tracking-tight font-black text-white">Featured Work</h2>
+                <div class="h-1 w-20 bg-gradient-to-r from-pink-500 to-violet-600 mx-auto rounded-full"></div>
+            </div> 
+            
+            <div class="grid gap-8 lg:grid-cols-2">
+                
+                <!-- Project Card 1 -->
+                <div class="reveal glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 hover:-translate-y-2 group border border-slate-800 hover:border-pink-500/30">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="p-3 bg-slate-800 rounded-2xl text-pink-400 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300">
+                                <i data-lucide="layout" class="w-6 h-6"></i>
+                            </div>
+                            <!-- UPDATED LINK HERE -->
+                            <a href="https://sunchazerrover.netlify.app/" target="_blank" class="hoverable text-slate-500 hover:text-white transition-colors">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                        <h3 class="mb-3 text-2xl font-bold text-white group-hover:text-pink-400 transition-colors">Sun Chazer Website</h3>
+                        <p class="mb-6 text-slate-400 leading-relaxed">
+                            A modern, responsive web application featuring dynamic content and smooth user interactions. Hosted on Netlify.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                             <span class="px-3 py-1 text-xs font-medium text-pink-300 bg-pink-900/30 rounded-full border border-pink-800/50">HTML5</span>
+                             <span class="px-3 py-1 text-xs font-medium text-pink-300 bg-pink-900/30 rounded-full border border-pink-800/50">CSS3</span>
+                             <span class="px-3 py-1 text-xs font-medium text-pink-300 bg-pink-900/30 rounded-full border border-pink-800/50">Netlify</span>
+                        </div>
+                    </div>
+                </div> 
+
+                <!-- Project Card 2 -->
+                <div class="reveal glass-card rounded-3xl overflow-hidden hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:-translate-y-2 group border border-slate-800 hover:border-green-500/30" style="transition-delay: 200ms;">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="p-3 bg-slate-800 rounded-2xl text-green-400 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                                <i data-lucide="cpu" class="w-6 h-6"></i>
+                            </div>
+                            <a href="https://github.com/YogitaYadav1/Carbon-Monoxide-Detector.git" target="_blank" class="hoverable text-slate-500 hover:text-white transition-colors">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                        <h3 class="mb-3 text-2xl font-bold text-white group-hover:text-green-400 transition-colors">CO Detector</h3>
+                        <p class="mb-6 text-slate-400 leading-relaxed">
+                            Safety-focused IoT hardware project. Detects dangerous carbon monoxide levels with sensor integration and real-time alerts.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                             <span class="px-3 py-1 text-xs font-medium text-green-300 bg-green-900/30 rounded-full border border-green-800/50">C++</span>
+                             <span class="px-3 py-1 text-xs font-medium text-green-300 bg-green-900/30 rounded-full border border-green-800/50">Arduino/IoT</span>
+                             <span class="px-3 py-1 text-xs font-medium text-green-300 bg-green-900/30 rounded-full border border-green-800/50">Hardware</span>
+                        </div>
+                    </div>
+                </div>                
+            </div>  
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-slate-900 relative overflow-hidden">
+        <!-- Decorative gradient -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-500/10 rounded-full filter blur-[100px]"></div>
+
+        <div class="max-w-screen-md px-4 mx-auto text-center relative z-10">
+            <h2 class="reveal mb-4 text-4xl font-black text-white">Get in Touch</h2>
+            <p class="reveal mb-12 text-slate-400">Have a project in mind or want to collaborate? Feel free to reach out directly.</p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Email Card -->
+                <a href="mailto:mananyadav730@gmail.com" class="reveal hoverable block p-8 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-pink-500 hover:bg-slate-800 transition-all group">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-slate-700 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-colors text-pink-400">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Email Me</h3>
+                    <p class="text-slate-400 group-hover:text-white transition-colors break-all">mananyadav730@gmail.com</p>
+                </a>
+
+                <!-- Phone Card -->
+                <a href="tel:+917875552230" class="reveal hoverable block p-8 rounded-2xl bg-slate-800/50 border border-slate-700 hover:border-violet-500 hover:bg-slate-800 transition-all group" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-xl bg-slate-700 flex items-center justify-center group-hover:bg-violet-500 group-hover:text-white transition-colors text-violet-400">
+                        <i data-lucide="phone" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Call Me</h3>
+                    <p class="text-slate-400 group-hover:text-white transition-colors">7875552230</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-slate-950 border-t border-slate-900">
+        <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-lg font-bold text-white">Yomad<span class="text-slate-500">Matrix</span></span>
+            </div>
+            <div class="text-sm text-slate-500">
+                &copy; 2024 All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Typewriter Effect
+        const textToType = "Yomad Matrix";
+        const typeWriterElement = document.getElementById('typewriter-text');
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (charIndex < textToType.length) {
+                typeWriterElement.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 150); // Adjust typing speed here
+            } else {
+                // Keep the cursor blinking after typing is done
+            }
+        }
+        
+        // Start typing after a small delay
+        setTimeout(typeWriter, 500);
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const hoverables = document.querySelectorAll('.hoverable');
+
+        window.addEventListener('mousemove', function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with delay (using CSS transition)
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
+            
+            // Animate outline movement using keyframes or transform if needed for smoother lag
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects for cursor
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // Scroll Animation Logic (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: Stop observing once revealed
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
